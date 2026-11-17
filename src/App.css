@@ -1,0 +1,112 @@
+.app-viewport {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  overflow-x: hidden;
+}
+
+/* Mobile Layout (< 1024px) */
+.weather-content {
+  width: 100%;
+  max-width: 420px;
+  padding: 0 16px;
+  position: relative;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  animation: contentFadeIn 350ms ease-out;
+}
+
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Staggered card entry animations */
+.weather-content > * {
+  animation: cardFadeIn 350ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.weather-content > *:nth-child(1) { animation-delay: 50ms; }
+.weather-content > *:nth-child(2) { animation-delay: 100ms; }
+.weather-content > *:nth-child(3) { animation-delay: 150ms; }
+.weather-content > *:nth-child(4) { animation-delay: 200ms; }
+.weather-content > *:nth-child(5) { animation-delay: 250ms; }
+
+@keyframes cardFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Desktop PC Layout (>= 1024px) */
+@media (min-width: 1024px) {
+  /* Hide mobile bottom floating bar on desktop */
+  .bottom-bar {
+    display: none;
+  }
+
+  /* Desktop spacious two-column container */
+  .weather-content {
+    max-width: 1240px;
+    padding: 10px 24px 60px 24px;
+    display: grid;
+    grid-template-columns: 420px minmax(0, 1fr);
+    grid-template-areas:
+      "hero hourly"
+      "daily details"
+      "daily footer";
+    gap: 20px;
+    align-items: start;
+  }
+
+  .weather-hero-area {
+    grid-area: hero;
+  }
+
+  .weather-daily-area {
+    grid-area: daily;
+  }
+
+  .weather-hourly-area {
+    grid-area: hourly;
+  }
+
+  .weather-details-area {
+    grid-area: details;
+  }
+
+  .weather-footer-area {
+    grid-area: footer;
+  }
+
+  /* Expand detail tiles into a beautiful 4-column grid on desktop */
+  .detail-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+  }
+
+  .detail-tile {
+    min-height: 160px;
+  }
+
+  /* On desktop, sticky header is not needed because desktop navbar is fixed/sticky */
+  .sticky-header {
+    display: none;
+  }
+}
